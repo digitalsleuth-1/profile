@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalSleuth-1 | Cybersecurity Expert</title>
+    
+    <!-- External Libraries -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+    <style>
+        :root {
+            --primary: #00ff8c;
+            --secondary: #ff00ff;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px var(--primary),
+                         0 0 20px var(--primary),
+                         0 0 30px var(--primary);
+        }
+
+        .neon-border {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 10px var(--primary),
+                       inset 0 0 10px var(--primary);
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .glass-card {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid rgba(0, 255, 140, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 255, 140, 0.3);
+        }
+
+        .nav-link {
+            position: relative;
+            color: var(--light);
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--secondary);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--primary);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(42px, 9999px, 44px, 0); }
+            100% { clip: rect(48px, 9999px, 72px, 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(18px, 9999px, 32px, 0); }
+            100% { clip: rect(86px, 9999px, 98px, 0); }
+        }
+
+        /* Dark Mode Toggle */
+        .theme-switch {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            z-index: 1000;
+        }
+
+        .skill-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--primary);
+            animation: fillBar 2s ease-out;
+        }
+
+        @keyframes fillBar {
+            from { width: 0; }
+        }
+
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 255, 140, 0.4);
+        }
+
+        .terminal {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            padding: 20px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .terminal::before {
+            content: '$ ';
+            color: var(--primary);
+        }
+
+        .cursor {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .glass-card {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .nav-link {
+                padding: 3px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+    <canvas id="matrix" class="matrix-bg"></canvas>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 glass-card">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl neon-text">DigitalSleuth-1</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#services" class="nav-link">Services</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+                <button class="md:hidden">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 glitch" data-text="Cybersecurity Expert">
+                    Cybersecurity Expert
+                </h1>
+                <div class="terminal text-xl md:text-2xl mb-8">
+                    <span id="typed"></span><span class="cursor">|</span>
+                </div>
+                <div class="flex justify-center space-x-4">
+                    <a href="https://t.me/Digitalsleuth_007" class="neon-border px-8 py-3 rounded-lg hover:bg-primary hover:text-dark transition-all">
+                        Hire Me
+                    </a>
+                    <a href="https://t.me/Digitalsleuth_007" class="border-2 border-white px-8 py-3 rounded-lg hover:border-primary transition-all">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center neon-text">Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card service-card">
+                    <i class="fas fa-shield-alt text-4xl text-primary mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-4">Hacking Services</h3>
+                    <p>Ethical hacking and penetration testing to identify vulnerabilities in your systems.</p>
+                </div>
+                <div class="glass-card service-card">
+                    <i class="fas fa-key text-4xl text-primary mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-4">Account Recovery</h3>
+                    <p>Professional account recovery services with secure authentication protocols.</p>
+                </div>
+                <div class="glass-card service-card">
+                    <i class="fas fa-lock text-4xl text-primary mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-4">Cybersecurity</h3>
+                    <p>Comprehensive security solutions and consulting for businesses and individuals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center neon-text">Skills & Expertise</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card">
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span>Penetration Testing</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span>Network Security</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span>Malware Analysis</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <h3 class="text-2xl font-bold mb-4">Tools & Technologies</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <ul class="space-y-2">
+                                <li><i class="fas fa-check text-primary mr-2"></i>Kali Linux</li>
+                                <li><i class="fas fa-check text-primary mr-2"></i>Metasploit</li>
+                                <li><i class="fas fa-check text-primary mr-2"></i>Wireshark</li>
+                                <li><i class="fas fa-check text-primary mr-2"></i>Nmap</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul class="space-y-2">
+                                <li><i class="fas fa-check text-primary mr-2"></i>Burp Suite</li>
+                                <li><i class="fas fa-check text-primary mr-2"></i>Python</li>
+                                <li><i class="fas fa-check text-primary mr-2"></i>SQL</li>
+                                <li><i class="fas fa-check text-primary mr-2"></i>Shell Scripting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center neon-text">Recent Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card">
+                    <img src="https://picsum.photos/400/300?random=1" alt="Project 1" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-bold mb-2">Security Audit</h3>
+                    <p class="mb-4">Comprehensive security assessment for a major financial institution.</p>
+                    <a href="#" class="text-primary hover:text-secondary">Learn More →</a>
+                </div>
+                <div class="glass-card">
+                    <img src="https://picsum.photos/400/300?random=2" alt="Project 2" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-bold mb-2">Penetration Testing</h3>
+                    <p class="mb-4">Advanced penetration testing for enterprise systems.</p>
+                    <a href="#" class="text-primary hover:text-secondary">Learn More →</a>
+                </div>
+                <div class="glass-card">
+                    <img src="https://picsum.photos/400/300?random=3" alt="Project 3" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-bold mb-2">Recovery Operation</h3>
+                    <p class="mb-4">Successful recovery of compromised corporate accounts.</p>
+                    <a href="#" class="text-primary hover:text-secondary">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section 
+    <section id="contact" class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center neon-text">Contact Me</h2>
+            <div class="max-w-2xl mx-auto">
+                <div class="glass-card">
+                    <form id="contactForm" class="space-y-6">
+                        <div>
+                            <label class="block mb-2">Name</label>
+                            <input type="text" class="w-full bg-dark border-2 border-primary p-3 rounded-lg focus:outline-none focus:border-secondary" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2">Email</label>
+                            <input type="email" class="w-full bg-dark border-2 border-primary p-3 rounded-lg focus:outline-none focus:border-secondary" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2">Message</label>
+                            <textarea class="w-full bg-dark border-2 border-primary p-3 rounded-lg focus:outline-none focus:border-secondary h-32" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full neon-border py-3 rounded-lg hover:bg-primary hover:text-dark transition-all">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>-->
+
+    <!-- Footer -->
+    <footer class="py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://github.com/digitalsleuth-1" class="text-2xl hover:text-primary"><i class="fab fa-github"></i></a>
+                <a href="https://x.com/Digitalsleuth_1" class="text-2xl hover:text-primary"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p>&copy; 2025 DigitalSleuth-1. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particles.js Configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#00ff8c' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#00ff8c',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+
+        // Typed.js Configuration
+        new Typed('#typed', {
+            strings: [
+                'Ethical Hacking',
+                'Account Recovery',
+                'Penetration Testing',
+                'Security Consulting',
+                'Vulnerability Assessment'
+            ],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form Submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your form submission logic here
+            alert('Message sent successfully!');
+            this.reset();
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
